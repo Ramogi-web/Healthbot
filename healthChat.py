@@ -1,44 +1,47 @@
 import pandas as pd
 
-# load your data through a dataframe
+# load your data into a dataframe
 df = pd.read_csv("health_data.csv")
 # print(df)
 
-print("Healthbot: Hello there, I'm your health assistance bot. Ask me about any symptoms.")
+print("Healthbot: Hello there, I am your Health assistance bot. Ask me about any symptoms.")
+
 
 while True:
-    #1. get the user inputs and store them in a variable
+    #1.  Get the user input and store the same into a variable
     user_text = input("\n You: ").lower()
 
-    #2. check if the users want to exit
+    # 2. Check if the users what to exit 
     if user_text == "quit":
-        print("Healthbot: Goodbye! Nice to have been on service to you. Stay healthy")
+        print("Healthbot: Goodbye! Nice to have been of service to you. Stay Healthy.")
         break
 
-    # create a variable wich will storethe details structured in the csv file
+    # Create a variable with will store the details structured in the csv file
     found_answer = False
 
-    # come upwith a loop thatloops through the entire data frame created before
-    for index,row in df.iterrows():
-        # clean up the keywords
+    # come up with a loop that loops through the entire data frame created before.
+    for index, row in df.iterrows():
+        # clean up the keywords from the CSV row
         keywords_list = str(row['Keywords']).split(',')
 
-        # below we check every keyword in that given row (keyword)
+        # print("The words inside of the variable keywords_list are: ", keywords_list)
+        # Below we check every keyword in that given row (Keywords)
+
         for word in keywords_list:
             clean_word = word.strip().lower()
+            # print("The content inside of clean_word are:", clean_word)
 
-            #if the keyword is inside of the of the users sentence
+            # if the keyword is inside of the user's sentence
             if clean_word in user_text:
                 print("Healthbot:", row["Response"])
-                found_answer=True
-                break#stop looking at other keywords
-
+                found_answer = True
+                break #Stop looking at other keywords
+        
         if found_answer:
-            break#stop looking at the other answers    
+            break # Stop looking at other answers since we already found a match
+    
+    # 4. If we went through the entire/whole CSV file and never found any match of the keywords, 
+    # we need to display a message to the user
 
-        #4. if we went through the entire /whole csv and never found any match of the keywords
-        #we need to display a message to the user
-
-        if not found_answer:
-            print("Healthbot: Sorry ,I dont know that one.Try something else")
-            break
+    if not found_answer:
+        print("Healthbot: Sorry, i don't know that one, Try asking for something else.")
